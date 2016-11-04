@@ -15,6 +15,12 @@ channel.on('join', function(id, client) {
 	this.on('broadcast', this.subscriptions[id]);
 });
 
+channel.on('shutdown', function() {
+	channel.emit('broadcast', '', 'Chat has shut down.\n');
+	// removeAllListeners method can remove all listeners of a given type
+	channel.removeAllListeners('broadcast');
+});
+
 var server = net.createServer(function(client) {
 	var id = client.remoteAddress + ':' + client.remotePort;
 	
@@ -24,6 +30,10 @@ var server = net.createServer(function(client) {
 
 	client.on('data', function(data) {
 		data = data.toString();
+		// channel.emit('broadcast', id, data);
+		if (data == 'shutdown\r\n') {
+			channel.emit('shutdown');
+		}
 		channel.emit('broadcast', id, data);
 	});
 });
