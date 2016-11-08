@@ -17,7 +17,7 @@ exports.parseReceivedData = function(req, cb) {
 };
 
 exports.actionForm = function(id, path, label) {
-    va html = '<form method="POST" action="' + path + '">' +
+    var html = '<form method="POST" action="' + path + '">' +
         '<input type="hidden" name="id" value="' + id + '">' +
         '<input type="submit" value="' + label + '" />' +
         '</form>';
@@ -86,6 +86,59 @@ exports.show = function(db, res, showArchived) {
 exports.showArchived = function(db, res) {
   exports.show(db, res, true);
 };
+
+exports.workHitlistHtml = function(rows) {
+	var html = '<table>';
+	for (var i in rows) {
+		html += '<tr>';
+		html += '<td>' + rows[i].date + '</td>';
+		html += '<td>' + rows[i].hours + '</td>';
+		html += '<td>' + rows[i].description + '</td>';
+
+		if (!rows[i].archived) {
+			html += '<td>' + exports.workArchiveForm(rows[i].id) + '</td>';
+		}
+		html += '<td>' + exports.workDeleteForm(rows[i].id) + '</td>';
+		html += '</tr>';
+	}
+	html += '</table>';
+	return html;
+};
+
+
+exports.workFormHtml = function() {
+	var html = '<form method="POST" action="/">' +
+		'<p>Date (YYYY-MM-DD):<br/><input name="date" type="text"><p/>' +
+		'<p>Hours worked:<br/><input name="hours" type="text"><p/>' +
+		'<p>Description:<br/>' +
+		'<textarea name="description"></textarea></p>' +
+    '<input type="submit" value="Add" />' +
+    '</form>';
+
+    exports.workArchiveForm = function(id) {
+    	return exports.actionForm(id, './archive', 'Archive');
+    };
+
+    exports.workDeleteForm = function(id) {
+    	return exports.actionForm(id, '/delete', 'Delete');
+    };
+};
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
