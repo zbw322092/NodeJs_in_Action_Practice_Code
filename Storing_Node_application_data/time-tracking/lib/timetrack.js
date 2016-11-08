@@ -41,7 +41,7 @@ exports.add = function(db, req, res) {
 
 exports.delete = function(db, req, res) {
     exports.parseReceivedData(req, function(work) {
-        b.query(
+        db.query(
             "DELETE FROM work WHERE id=?", [work.id],
             function(err) {
                 if (err) throw err;
@@ -115,15 +115,16 @@ exports.workFormHtml = function() {
     '<input type="submit" value="Add" />' +
     '</form>';
 
-    exports.workArchiveForm = function(id) {
-    	return exports.actionForm(id, './archive', 'Archive');
-    };
-
-    exports.workDeleteForm = function(id) {
-    	return exports.actionForm(id, '/delete', 'Delete');
-    };
+  return html;
 };
 
+exports.workArchiveForm = function(id) {
+  return exports.actionForm(id, './archive', 'Archive');
+};
+
+exports.workDeleteForm = function(id) {
+  return exports.actionForm(id, '/delete', 'Delete');
+};
 
  
 
