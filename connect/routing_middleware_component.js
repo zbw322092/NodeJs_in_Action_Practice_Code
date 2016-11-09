@@ -19,7 +19,7 @@ var routes = {
 };
 
 connect()
-	.use(router(routes));
+	.use(router(routes))
 	.listen(3000);
 
-	
+
