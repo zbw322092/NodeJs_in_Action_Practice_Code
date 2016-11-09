@@ -29,6 +29,18 @@ client.hkeys('camping', function(err, keys) {
 	});
 });
 
+client.lpush('task', 'Paint the bikeshed red.', redis.print);
+client.lpush('task', 'Paint the bikeshed green.', redis.print);
+client.lrange('task', 0, -1, function(err, items) {
+	if (err) throw err;
+	items.forEach(function(item, i) {
+		console.log(' ' + item);
+	});
+});
+
+
+
+
 
 
 
