@@ -1,3 +1,4 @@
+// 模块引入
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,7 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
+// 引入路由
 var photos = require('./routes/photos.js');
 
 var app = express();
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 路由的配置
 app.use('/', photos.list);
 app.get('/upload', photos.form);
 app.post('/upload', photos.submit(app.get('photos')));
@@ -35,18 +37,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-// 关于路径
-// 这里的值就是这个文件夹的绝对路径
-console.log(__dirname);
-
-// 关于环境
-console.log(app.get('env'));
-// console.log(process.env);
-console.log(process.env.NODE_ENV);
-
-
-
 
 // error handlers
 
