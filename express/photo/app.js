@@ -5,15 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+
 var photos = require('./routes/photos.js');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');  
+app.set('view engine', 'ejs');
+app.set('photos', path.join(__dirname, '/public/photos'));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -24,7 +24,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', photos.list);
-app.use('/users', users);
+app.get('/upload', photos.form);
+app.post('/upload', photos.submit(app.get('photos')));
+app.get('/photo/:id/download', photos.download(app.get('photos')));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
