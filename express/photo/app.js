@@ -7,12 +7,13 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var photos = require('./routes/photos.js');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');  
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -22,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', photos.list);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -31,6 +32,18 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+// 关于路径
+// 这里的值就是这个文件夹的绝对路径
+console.log(__dirname);
+
+// 关于环境
+console.log(app.get('env'));
+// console.log(process.env);
+console.log(process.env.NODE_ENV);
+
+
+
 
 // error handlers
 
