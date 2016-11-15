@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+// requiring route logic
+var register = require('./routes/register');
+var messages = require('./lib/message.js');
 
 var app = express();
 
@@ -24,6 +27,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+// app.use(express.methodOverride());
+// app.use(express.cookieParser('your secret here'));
+// app.use(express.session());
+app.use(messages);
+
+// add routes
+app.get('/register', register.form);
+app.post('/register', register.submit);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
